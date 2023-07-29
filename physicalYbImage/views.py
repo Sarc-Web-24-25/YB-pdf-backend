@@ -51,7 +51,7 @@ def process_post(post):
         image = resize_image(download_image_async(image_url))
 
         if compare_images(comparisonImage, image):
-            post['written_by_profile']['profile_image'] = ""
+            post['written_by_profile']['profile_image'] =  "https://cdna.artstation.com/p/assets/images/images/040/951/926/large/maddie_creates-jj-ver2.jpg?1630351796" if post['written_by_profile']['gender'] == "M" else "https://i.pinimg.com/originals/b4/fc/98/b4fc98b3314d6bb01e6b2cf557d2207e.jpg"
         else:
             post['written_by_profile']['profile_image'] = f'https://yearbook.sarc-iitb.org{post["written_by_profile"]["profile_image"]}'
 
@@ -66,6 +66,7 @@ def index(request):
         new_posts = [process_post(post) for post in posts]
 
         json_response = json.dumps(new_posts)
+        print(json_response)
         return HttpResponse(json_response, content_type="application/json")
 
     return HttpResponse("No posts provided.", status=400)
