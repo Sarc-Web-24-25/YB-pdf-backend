@@ -6,16 +6,17 @@ import requests
 from io import BytesIO
 import numpy as np
 import os
+from concurrent.futures import ThreadPoolExecutor
 
-# Function to download image asynchronously
-def download_image_async(url):
+# Function to download image
+def download_image(url):
     response = requests.get(url)
     if response.status_code == 200:
         return Image.open(BytesIO(response.content))
     return None
 
 # Function to compare images using Mean Squared Error (MSE)
-def compare_images(image1, image2, similarity_threshold=1):
+def compare_images(image1, image2, similarity_threshold=90.0):
     if image1.size != image2.size:
         return False
 
@@ -40,18 +41,28 @@ def resize_image(image, max_size=100):
 
 # Main function to process posts
 def process_post(post):
+    print(post['id'])
     if not post['is_anonymous']:
-        
         comparisonImageUrl = "https://yearbook.sarc-iitb.org/api/Impression_Images/user_1128/profile.jpg"
-        
-        comparisonImage = resize_image(download_image_async(comparisonImageUrl))
+        comparisonImage = resize_image(download_image(comparisonImageUrl))
 
         image_url = f'https://yearbook.sarc-iitb.org{post["written_by_profile"]["profile_image"]}'
+        
+        with ThreadPoolExecutor() as executor:
+            future_image = executor.submit(download_image, image_url)
 
-        image = resize_image(download_image_async(image_url))
+        image = resize_image(future_image.result())
 
         if compare_images(comparisonImage, image):
-            post['written_by_profile']['profile_image'] =  "https://cdna.artstation.com/p/assets/images/images/040/951/926/large/maddie_creates-jj-ver2.jpg?1630351796" if post['written_by_profile']['gender'] == "M" else "https://i.pinimg.com/originals/b4/fc/98/b4fc98b3314d6bb01e6b2cf557d2207e.jpg"
+            gender = post['written_by_profile']['gender']
+            
+            if(gender == "F"): 
+                post['written_by_profile']['profile_image'] = "https://cdna.artstation.com/p/assets/images/images/044/264/916/large/hannah-akin-commissions-open-custom-cartoon-avatar-1-by-averagehamster-dewads8-fullview.jpg?1639522781"
+            elif(gender == "M"):
+                post['written_by_profile']['profile_image'] = "https://cdna.artstation.com/p/assets/images/images/040/951/926/large/maddie_creates-jj-ver2.jpg?1630351796"
+            else:
+                post['written_by_profile']['profile_image'] = "https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?s=612x612&w=0&k=20&c=yDJ4ITX1cHMh25Lt1vI1zBn2cAKKAlByHBvPJ8gEiIg="
+            
         else:
             post['written_by_profile']['profile_image'] = f'https://yearbook.sarc-iitb.org{post["written_by_profile"]["profile_image"]}'
 
