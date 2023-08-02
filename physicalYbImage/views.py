@@ -57,9 +57,9 @@ def process_post(post):
             gender = post['written_by_profile']['gender']
             
             if(gender == "F"): 
-                post['written_by_profile']['profile_image'] = "https://cdna.artstation.com/p/assets/images/images/044/264/916/large/hannah-akin-commissions-open-custom-cartoon-avatar-1-by-averagehamster-dewads8-fullview.jpg?1639522781"
+                post['written_by_profile']['profile_image'] = "https://media.istockphoto.com/id/1387448548/vector/people-head-silhouettes.jpg?s=612x612&w=0&k=20&c=Yty4fp2tMJok-jzQ3-PZXxrQuN5BWJkpQE2PwSWknns="
             elif(gender == "M"):
-                post['written_by_profile']['profile_image'] = "https://cdna.artstation.com/p/assets/images/images/040/951/926/large/maddie_creates-jj-ver2.jpg?1630351796"
+                post['written_by_profile']['profile_image'] = "https://media.istockphoto.com/id/526947869/vector/man-silhouette-profile-picture.jpg?s=612x612&w=0&k=20&c=5I7Vgx_U6UPJe9U2sA2_8JFF4grkP7bNmDnsLXTYlSc="
             else:
                 post['written_by_profile']['profile_image'] = "https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?s=612x612&w=0&k=20&c=yDJ4ITX1cHMh25Lt1vI1zBn2cAKKAlByHBvPJ8gEiIg="
             
