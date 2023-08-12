@@ -68,8 +68,61 @@ def process_post(post):
 
     return post
 
+
+def process_profiles(profile):
+    comparisonImageUrl = "https://yearbook.sarc-iitb.org/api/Impression_Images/user_1128/profile.jpg"
+    comparisonImage = resize_image(download_image(comparisonImageUrl))
+    
+
+
+    image_url1 = f'https://yearbook.sarc-iitb.org{profile["img1"]}'
+    image_url2 = f'https://yearbook.sarc-iitb.org{profile["img2"]}'
+    image_url3 = f'https://yearbook.sarc-iitb.org{profile["img3"]}'
+    image_url4 = f'https://yearbook.sarc-iitb.org{profile["img4"]}'
+    
+    
+    
+        
+    with ThreadPoolExecutor() as executor:
+        future_image1 = executor.submit(download_image, image_url1)
+        future_image2 = executor.submit(download_image, image_url2)
+        future_image3 = executor.submit(download_image, image_url3)
+        future_image4 = executor.submit(download_image, image_url4)
+        
+
+    image = resize_image(future_image1.result())
+
+    if compare_images(comparisonImage, image):
+        profile['img1'] = "https://cdna.artstation.com/p/assets/images/images/044/264/916/large/hannah-akin-commissions-open-custom-cartoon-avatar-1-by-averagehamster-dewads8-fullview.jpg?1639522781"
+    else:
+        profile['img1'] = f'https://yearbook.sarc-iitb.org{profile["img1"]}'
+            
+    image = resize_image(future_image2.result())
+    
+    if compare_images(comparisonImage, image):
+        profile['img2'] = "https://cdna.artstation.com/p/assets/images/images/044/264/916/large/hannah-akin-commissions-open-custom-cartoon-avatar-1-by-averagehamster-dewads8-fullview.jpg?1639522781"
+    else:
+        profile['img2'] = f'https://yearbook.sarc-iitb.org{profile["img2"]}'
+    
+    image = resize_image(future_image3.result())
+    
+    if compare_images(comparisonImage, image):
+        profile['img3'] = "https://cdna.artstation.com/p/assets/images/images/044/264/916/large/hannah-akin-commissions-open-custom-cartoon-avatar-1-by-averagehamster-dewads8-fullview.jpg?1639522781"
+    else:
+        profile['img3'] = f'https://yearbook.sarc-iitb.org{profile["img3"]}'
+    
+    image = resize_image(future_image4.result())
+    
+    if compare_images(comparisonImage, image):
+        profile['img4'] = "https://cdna.artstation.com/p/assets/images/images/044/264/916/large/hannah-akin-commissions-open-custom-cartoon-avatar-1-by-averagehamster-dewads8-fullview.jpg?1639522781"
+    else:
+        profile['img4'] = f'https://yearbook.sarc-iitb.org{profile["img4"]}'
+        
+
+    return profile
+
 @csrf_exempt
-def index(request):
+def feed(request):
     data = json.loads(request.body)
     posts = data.get("posts")
 
@@ -77,6 +130,22 @@ def index(request):
         new_posts = [process_post(post) for post in posts]
 
         json_response = json.dumps(new_posts)
+        print(json_response)
+        return HttpResponse(json_response, content_type="application/json")
+
+    return HttpResponse("No posts provided.", status=400)
+
+
+
+@csrf_exempt
+def profile(request):
+    data = json.loads(request.body)
+    profiles = data.get("profiles")
+
+    if profiles:
+        new_profiles = [process_profiles(profile) for profile in profiles]
+
+        json_response = json.dumps(new_profiles)
         print(json_response)
         return HttpResponse(json_response, content_type="application/json")
 
