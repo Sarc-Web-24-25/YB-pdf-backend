@@ -16,7 +16,7 @@ def download_image(url):
     return None
 
 # Function to compare images using Mean Squared Error (MSE)
-def compare_images(image1, image2, similarity_threshold=90.0):
+def compare_images(image1, image2, similarity_threshold=99.0):
     if image1.size != image2.size:
         return False
 
@@ -54,15 +54,7 @@ def process_post(post):
         image = resize_image(future_image.result())
 
         if compare_images(comparisonImage, image):
-            gender = post['written_by_profile']['gender']
-            
-            if(gender == "F"): 
-                post['written_by_profile']['profile_image'] = "https://media.istockphoto.com/id/1387448548/vector/people-head-silhouettes.jpg?s=612x612&w=0&k=20&c=Yty4fp2tMJok-jzQ3-PZXxrQuN5BWJkpQE2PwSWknns="
-            elif(gender == "M"):
-                post['written_by_profile']['profile_image'] = "https://media.istockphoto.com/id/526947869/vector/man-silhouette-profile-picture.jpg?s=612x612&w=0&k=20&c=5I7Vgx_U6UPJe9U2sA2_8JFF4grkP7bNmDnsLXTYlSc="
-            else:
-                post['written_by_profile']['profile_image'] = "https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?s=612x612&w=0&k=20&c=yDJ4ITX1cHMh25Lt1vI1zBn2cAKKAlByHBvPJ8gEiIg="
-            
+            post['written_by_profile']['profile_image'] = "https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?s=612x612&w=0&k=20&c=yDJ4ITX1cHMh25Lt1vI1zBn2cAKKAlByHBvPJ8gEiIg="
         else:
             post['written_by_profile']['profile_image'] = f'https://yearbook.sarc-iitb.org{post["written_by_profile"]["profile_image"]}'
 
