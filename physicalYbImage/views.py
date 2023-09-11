@@ -109,14 +109,14 @@ def process_profiles(profile):
     image = resize_image(future_image3.result())
 
     if compare_images(comparisonImage, image):
-        profile['img3'] = "https://images.shiksha.com/mediadata/images/1507098576phpIeW02o.jpeg"
+        profile['img3'] = "3"
     else:
         profile['img3'] = f'https://yearbook.sarc-iitb.org{profile["img3"]}'
 
     image = resize_image(future_image4.result())
 
     if compare_images(comparisonImage, image):
-        profile['img4'] = "3"
+        profile['img4'] = "https://gumlet.assettype.com/swarajya/2019-01/49a7ca7e-01e7-4a68-be86-3fe045ddce33/1001552_416581841795760_2032923202_n.jpg?w=1200&auto=format%2Ccompress&ogImage=true"
     else:
         profile['img4'] = f'https://yearbook.sarc-iitb.org{profile["img4"]}'
 
