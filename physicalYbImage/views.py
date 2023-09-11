@@ -95,14 +95,14 @@ def process_profiles(profile):
     image = resize_image(future_image1.result())
 
     if compare_images(comparisonImage, image):
-        profile['img1'] = "https://static.theprint.in/wp-content/uploads/2022/08/IIT-Bombay-main-building.jpg"
+        profile['img1'] = "1"
     else:
         profile['img1'] = f'https://yearbook.sarc-iitb.org{profile["img1"]}'
 
     image = resize_image(future_image2.result())
 
     if compare_images(comparisonImage, image):
-        profile['img2'] = "https://images.shiksha.com/mediadata/images/1507098576phpIeW02o.jpeg"
+        profile['img2'] = "2"
     else:
         profile['img2'] = f'https://yearbook.sarc-iitb.org{profile["img2"]}'
 
@@ -116,7 +116,7 @@ def process_profiles(profile):
     image = resize_image(future_image4.result())
 
     if compare_images(comparisonImage, image):
-        profile['img4'] = "https://gumlet.assettype.com/swarajya/2019-01/49a7ca7e-01e7-4a68-be86-3fe045ddce33/1001552_416581841795760_2032923202_n.jpg?w=1200&auto=format%2Ccompress&ogImage=true"
+        profile['img4'] = "3"
     else:
         profile['img4'] = f'https://yearbook.sarc-iitb.org{profile["img4"]}'
 
